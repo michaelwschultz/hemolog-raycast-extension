@@ -1,0 +1,44 @@
+{
+  "name": "hemolog-recent-infusions",
+  "title": "Recent infusions",
+  "description": "Shows last 3 infusions from Hemolog.com",
+  "icon": "command-icon.png",
+  "author": "michaelschultz",
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "index",
+      "title": "Recent infusions",
+      "subtitle": "Show last 3 infusions",
+      "description": "Shows last 3 infusions from Hemolog.com",
+      "mode": "view",
+      "preferences": [
+        {
+          "name": "API_KEY",
+          "type": "password",
+          "required": true,
+          "title": "Hemolog API key",
+          "description": "Available at https://hemolog.com/profile"
+        }
+      ]
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.25.0",
+    "node-fetch": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "~16.10.0",
+    "@types/react": "^17.0.28",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "react-devtools": "^4.19.2",
+    "typescript": "^4.4.3"
+  },
+  "scripts": {
+    "build": "ray build -e dist",
+    "dev": "ray develop"
+  }
+}
