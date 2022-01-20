@@ -1,6 +1,6 @@
 {
-  "name": "hemolog-recent-infusions",
-  "title": "Recent infusions",
+  "name": "hemolog",
+  "title": "Hemolog",
   "description": "Shows last 3 infusions from Hemolog.com",
   "icon": "command-icon.png",
   "author": "michaelschultz",
@@ -21,10 +21,27 @@
           "description": "Available at https://hemolog.com/profile"
         }
       ]
+    },
+    {
+      "name": "log-infusion",
+      "title": "Log infusion",
+      "subtitle": "Log an infusion",
+      "description": "Log an infusion to Hemolog.com",
+      "mode": "view",
+      "preferences": [
+        {
+          "name": "API_KEY",
+          "type": "password",
+          "required": true,
+          "title": "Hemolog API key",
+          "description": "Available at https://hemolog.com/profile"
+        }
+      ]
     }
   ],
   "dependencies": {
-    "@raycast/api": "^1.25.0",
+    "@raycast/api": "^1.26.1",
+    "date-fns": "^2.27.0",
     "node-fetch": "^3.0.0"
   },
   "devDependencies": {

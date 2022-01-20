@@ -1,8 +1,21 @@
 import { ActionPanel, List, OpenInBrowserAction, showToast, ToastStyle, getPreferenceValues } from "@raycast/api";
 import { useState, useEffect } from "react";
 import fetch from "node-fetch";
+import { format } from "date-fns";
 
-export default function InfusionList() {
+type Infusion = {
+  uid: string;
+  date: string;
+  type: string;
+  sites?: string;
+  cause?: string;
+};
+
+interface Preferences {
+  API_KEY: string;
+}
+
+export default function Default() {
   const [state, setState] = useState<{ infusions: Infusion[] }>({ infusions: [] });
 
   useEffect(() => {
@@ -19,7 +32,7 @@ export default function InfusionList() {
   return (
     <List isLoading={state.infusions.length === 0} searchBarPlaceholder="Filter infusions by type...">
       {state.infusions.map((infusion) => (
-        <InfusionListItem key={infusion.id} infusion={infusion} />
+        <InfusionListItem key={infusion.uid} infusion={infusion} />
       ))}
     </List>
   );
@@ -39,17 +52,20 @@ function InfusionListItem(props: { infusion: Infusion }) {
     }
   };
 
+  // Fix for timezone issues when submitting on the first day of the month
+  const dt = new Date(infusion.date);
+  const dateOnly = new Date(dt.valueOf() + dt.getTimezoneOffset() * 60 * 1000);
+
   return (
     <List.Item
-      id={infusion.id}
-      key={infusion.id}
+      id={infusion.uid}
       title={infusion.type}
       subtitle={`${infusion.sites} ${infusion.cause && `— ${infusion.cause}`}`}
       icon={iconType()}
-      accessoryTitle={new Date(infusion.date).toLocaleDateString()}
+      accessoryTitle={format(dateOnly, "yyyy-MM-dd")}
       actions={
         <ActionPanel>
-          <OpenInBrowserAction url={infusion.date} />
+          <OpenInBrowserAction url="https://hemolog.com/home" />
         </ActionPanel>
       }
     />
@@ -68,16 +84,4 @@ async function fetchInfusions(): Promise<Infusion[]> {
     showToast(ToastStyle.Failure, "Could not load infusions");
     return Promise.resolve([]);
   }
-}
-
-type Infusion = {
-  id: string;
-  date: string;
-  type: string;
-  sites?: string;
-  cause?: string;
-};
-
-interface Preferences {
-  API_KEY: string;
 }
