@@ -1,61 +1,65 @@
 {
+  "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "hemolog",
   "title": "Hemolog",
-  "description": "Shows last 3 infusions from Hemolog.com",
+  "description": "Shows last 3 treatments from Hemolog.com",
   "icon": "command-icon.png",
   "author": "michaelschultz",
+  "owner": "michaelschultz",
   "license": "MIT",
+  "access": "public",
+  "platforms": [
+    "macOS",
+    "Windows"
+  ],
+  "keywords": [
+    "log",
+    "hemo",
+    "treatment",
+    "bleed"
+  ],
+  "preferences": [
+    {
+      "name": "API_KEY",
+      "type": "password",
+      "required": true,
+      "title": "Hemolog API key",
+      "description": "Available at https://hemolog.com/profile"
+    }
+  ],
   "commands": [
     {
-      "name": "index",
-      "title": "Recent infusions",
-      "subtitle": "Show last 3 infusions",
-      "description": "Shows last 3 infusions from Hemolog.com",
-      "mode": "view",
-      "preferences": [
-        {
-          "name": "API_KEY",
-          "type": "password",
-          "required": true,
-          "title": "Hemolog API key",
-          "description": "Available at https://hemolog.com/profile"
-        }
-      ]
+      "name": "recent-treatments",
+      "title": "Recent Treatments",
+      "description": "Shows the last 3 treatments from Hemolog.com",
+      "mode": "view"
     },
     {
-      "name": "log-infusion",
-      "title": "Log infusion",
-      "subtitle": "Log an infusion",
-      "description": "Log an infusion to Hemolog.com",
-      "mode": "view",
-      "preferences": [
-        {
-          "name": "API_KEY",
-          "type": "password",
-          "required": true,
-          "title": "Hemolog API key",
-          "description": "Available at https://hemolog.com/profile"
-        }
-      ]
+      "name": "log-treatment",
+      "title": "Log Treatment",
+      "description": "Record a treatment to Hemolog.com",
+      "mode": "view"
     }
   ],
   "dependencies": {
-    "@raycast/api": "^1.26.1",
-    "date-fns": "^2.27.0",
-    "node-fetch": "^3.0.0"
+    "@raycast/api": "^1.103.2",
+    "@raycast/utils": "^2.2.1",
+    "date-fns": "^2.27.0"
   },
   "devDependencies": {
-    "@types/node": "~16.10.0",
-    "@types/react": "^17.0.28",
-    "@typescript-eslint/eslint-plugin": "^5.0.0",
-    "@typescript-eslint/parser": "^5.0.0",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
-    "react-devtools": "^4.19.2",
-    "typescript": "^4.4.3"
+    "@raycast/eslint-config": "^2.0.4",
+    "@types/node": "^22.18.6",
+    "@types/react": "^19.1.13",
+    "eslint": "^9.36.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.2"
   },
   "scripts": {
-    "build": "ray build -e dist",
-    "dev": "ray develop"
+    "build": "ray build",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "prepublishOnly": "echo \"\\n\\nIt seems like you are trying to publish the Raycast extension to npm.\\n\\nIf you did intend to publish it to npm, remove the \\`prepublishOnly\\` script and rerun \\`npm publish\\` again.\\nIf you wanted to publish it to the Raycast Store instead, use \\`npm run publish\\` instead.\\n\\n\" && exit 1",
+    "publish": "npx @raycast/api@latest publish"
   }
 }

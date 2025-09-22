@@ -1,31 +1,21 @@
 import { useState } from "react";
-import fetch from "node-fetch";
 import { format } from "date-fns";
 import {
+  Action,
+  Toast,
   showToast,
-  ToastStyle,
   getPreferenceValues,
   Form,
   ActionPanel,
-  SubmitFormAction,
   popToRoot,
-  Detail,
-  FormValues,
-  OpenInBrowserAction,
 } from "@raycast/api";
-
-type Infusion = {
-  date: string;
-  type: string;
-  sites?: string;
-  cause?: string;
-};
+import type { Treatment } from "./recent-treatments";
 
 interface Preferences {
   API_KEY: string;
 }
 
-export default function LogInfusions() {
+export default function LogTreatments() {
   const [isLoading, setIsLoading] = useState(false);
 
   const date = new Date();
@@ -36,30 +26,32 @@ export default function LogInfusions() {
       isLoading={isLoading}
       actions={
         <ActionPanel>
-          <SubmitFormAction title="Log Infusion" onSubmit={(values: Infusion) => logInfusion(values, setIsLoading)} />
-          <OpenInBrowserAction title="Visit Hemolog" url="https://hemolog.com/home" />
+          <Action.SubmitForm title="Log Treatment" onSubmit={(input: Treatment) => logTreatment(input, setIsLoading)} />
+          <Action.OpenInBrowser title="Visit Hemolog" url="https://hemolog.com/home" />
         </ActionPanel>
       }
     >
-      <Form.Dropdown id="type" title="Type of bleed" defaultValue="PROPHY">
+      <Form.Dropdown id="type" title="Type of treatment" defaultValue="ANTIBODY">
+        <Form.Dropdown.Item value="ANTIBODY" title="Antibody" icon="⚫" />
         <Form.Dropdown.Item value="PROPHY" title="Prophy" icon="🔵" />
         <Form.Dropdown.Item value="BLEED" title="Bleed" icon="🔴" />
         <Form.Dropdown.Item value="PREVENTATIVE" title="Preventative" icon="🟢" />
       </Form.Dropdown>
-      <Form.DatePicker id="date" title="Date of infusion" defaultValue={adjustedDateForTimezone} />
+      <Form.DatePicker id="date" title="Date of treatment" defaultValue={adjustedDateForTimezone} />
       <Form.TextField id="sites" title="Affected areas" placeholder="Left ankle, right knee" />
       <Form.TextField id="cause" title="Cause" placeholder="Ran into a door 🤦" />
     </Form>
   );
 }
 
-async function logInfusion(values: FormValues, setIsLoading: (isLoading: boolean) => void) {
+async function logTreatment(values: Form.Values, setIsLoading: (isLoading: boolean) => void) {
   const preferences: Preferences = getPreferenceValues();
   const { API_KEY } = preferences;
   setIsLoading(true);
 
   if (!values.date || !values.type) {
-    showToast(ToastStyle.Failure, "Bleed type and date are required");
+    showToast(Toast.Style.Failure, "Treatment type and date are required");
+    setIsLoading(false);
     return;
   }
 
@@ -70,21 +62,22 @@ async function logInfusion(values: FormValues, setIsLoading: (isLoading: boolean
       ...values,
       date: format(adjustedDateForTimezone, "yyyy-MM-dd"),
     };
-    await fetch(`https://hemolog.com/api/log-infusion?apikey=${API_KEY}`, {
+    await fetch(`https://hemolog.com/api/log-treatment?apikey=${API_KEY}`, {
       method: "POST",
       body: JSON.stringify(body),
       headers: {
         "Content-Type": "application/json",
       },
     });
-    showToast(ToastStyle.Success, "Infusion logged!");
+    showToast(Toast.Style.Success, "Treatment logged!");
     setIsLoading(false);
     popToRoot();
-    return <Detail markdown="See you soon 👋" />;
+    return;
   } catch (error) {
-    setIsLoading(false);
-    console.error(error);
-    showToast(ToastStyle.Failure, "Could not submit infusion");
-    return Promise.resolve([]);
+    if (error) {
+      setIsLoading(false);
+      showToast(Toast.Style.Failure, "Could not submit Treatment");
+    }
+    return;
   }
 }
