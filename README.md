@@ -1,6 +1,6 @@
 # Hemolog for Raycast
 
-This is a niche extension for people with a genetic bleeding discorder called Hemophilia. Hemolog.com allows you to log your treatments and view statistics over the years to keep you and your medical team on the same page.
+This is a niche extension for people with a genetic bleeding disorder called Hemophilia. Hemolog.com allows you to log your treatments and view statistics over the years to keep you and your medical team on the same page.
 
 Hemolog is free. Sign up at https://hemolog.com. You can find your API key at https://hemolog.com/profile.
 
