@@ -43,7 +43,7 @@ async function logTreatment(values: Form.Values, setIsLoading: (isLoading: boole
     return;
   }
 
-  const adjustedDateForTimezone = new Date(values.date.valueOf() + values.date.getTimezoneOffset() / 60);
+  const adjustedDateForTimezone = new Date(values.date.valueOf() + values.date.getTimezoneOffset() * 60 * 1000);
 
   try {
     const body = {
