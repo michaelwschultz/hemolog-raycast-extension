@@ -10,13 +10,9 @@ export type Treatment = {
   cause?: string;
 };
 
-interface Preferences {
-  API_KEY: string;
-}
-
-export default function Default() {
-  const preferences = getPreferenceValues<Preferences>();
-  const API_KEY = preferences.API_KEY;
+export default function recentTreatments() {
+  const preferences: Preferences = getPreferenceValues();
+  const { API_KEY } = preferences;
 
   const { isLoading, data, error } = useFetch<Treatment[]>(
     `https://hemolog.com/api/recent-treatments?apikey=${API_KEY}`,

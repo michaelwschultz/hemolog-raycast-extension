@@ -3,10 +3,6 @@ import { format } from "date-fns";
 import { Action, Toast, showToast, getPreferenceValues, Form, ActionPanel, popToRoot } from "@raycast/api";
 import type { Treatment } from "./recent-treatments";
 
-interface Preferences {
-  API_KEY: string;
-}
-
 export default function LogTreatments() {
   const [isLoading, setIsLoading] = useState(false);
 
