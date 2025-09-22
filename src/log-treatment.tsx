@@ -6,9 +6,6 @@ import type { Treatment } from "./recent-treatments";
 export default function LogTreatments() {
   const [isLoading, setIsLoading] = useState(false);
 
-  const date = new Date();
-  const adjustedDateForTimezone = new Date(date.valueOf() + date.getTimezoneOffset() / 60);
-
   return (
     <Form
       isLoading={isLoading}
@@ -25,7 +22,7 @@ export default function LogTreatments() {
         <Form.Dropdown.Item value="BLEED" title="Bleed" icon="🔴" />
         <Form.Dropdown.Item value="PREVENTATIVE" title="Preventative" icon="🟢" />
       </Form.Dropdown>
-      <Form.DatePicker id="date" title="Date of treatment" defaultValue={adjustedDateForTimezone} />
+      <Form.DatePicker id="date" title="Date of treatment" defaultValue={adjustDateForTimezone(new Date())} />
       <Form.TextField id="sites" title="Affected areas" placeholder="Left ankle, right knee" />
       <Form.TextField id="cause" title="Cause" placeholder="Ran into a door 🤦" />
     </Form>
@@ -43,12 +40,10 @@ async function logTreatment(values: Form.Values, setIsLoading: (isLoading: boole
     return;
   }
 
-  const adjustedDateForTimezone = new Date(values.date.valueOf() + values.date.getTimezoneOffset() * 60 * 1000);
-
   try {
     const body = {
       ...values,
-      date: format(adjustedDateForTimezone, "yyyy-MM-dd"),
+      date: format(adjustDateForTimezone(values.date), "yyyy-MM-dd"),
     };
     await fetch(`https://hemolog.com/api/log-treatment?apikey=${API_KEY}`, {
       method: "POST",
@@ -69,3 +64,8 @@ async function logTreatment(values: Form.Values, setIsLoading: (isLoading: boole
     return;
   }
 }
+
+const adjustDateForTimezone = (date: Date) => {
+  const adjustedDate = new Date(date.valueOf() + date.getTimezoneOffset() * 60 * 1000);
+  return adjustedDate;
+};
