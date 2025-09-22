@@ -18,9 +18,12 @@ export default function Default() {
   const preferences = getPreferenceValues<Preferences>();
   const API_KEY = preferences.API_KEY;
 
-  const { isLoading, data, error } = useFetch<Treatment[]>(`https://hemolog.com/api/recent-treatments?apikey=${API_KEY}`, {
-    keepPreviousData: true,
-  });
+  const { isLoading, data, error } = useFetch<Treatment[]>(
+    `https://hemolog.com/api/recent-treatments?apikey=${API_KEY}`,
+    {
+      keepPreviousData: true,
+    },
+  );
 
   if (error) {
     showToast(Toast.Style.Failure, "Error", "Error fetching treatments. Verify your API key.");
@@ -61,11 +64,7 @@ function TreatmentListItem(props: { readonly Treatment: Treatment }) {
     <List.Item
       id={Treatment.uid}
       title={Treatment.type}
-      subtitle={
-        Treatment.cause
-          ? `${Treatment.sites} — ${Treatment.cause}`
-          : `${Treatment.sites}`
-      }
+      subtitle={Treatment.cause ? `${Treatment.sites} — ${Treatment.cause}` : `${Treatment.sites}`}
       icon={iconType()}
       accessories={[{ text: format(dateOnly, "yyyy-MM-dd") }]}
       actions={

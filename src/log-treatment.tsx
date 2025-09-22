@@ -1,14 +1,6 @@
 import { useState } from "react";
 import { format } from "date-fns";
-import {
-  Action,
-  Toast,
-  showToast,
-  getPreferenceValues,
-  Form,
-  ActionPanel,
-  popToRoot,
-} from "@raycast/api";
+import { Action, Toast, showToast, getPreferenceValues, Form, ActionPanel, popToRoot } from "@raycast/api";
 import type { Treatment } from "./recent-treatments";
 
 interface Preferences {

@@ -2,10 +2,9 @@
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "hemolog",
   "title": "Hemolog",
-  "description": "Shows last 3 treatments from Hemolog.com",
+  "description": "View and log treatments with Hemolog.com",
   "icon": "command-icon.png",
   "author": "michaelschultz",
-  "owner": "michaelschultz",
   "license": "MIT",
   "access": "public",
   "platforms": [
