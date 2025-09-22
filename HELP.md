@@ -1,6 +1,7 @@
 # Find your Hemolog.com API key
 
-- Visit https://hemolog.com/profile
+- Visit [Hemolog.com](https://hemolog.com/profile)
+- Go to your profile
 - Click generate API key
 - Click copy button
 

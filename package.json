@@ -3,7 +3,7 @@
   "name": "hemolog",
   "title": "Hemolog",
   "description": "View and log treatments with Hemolog.com",
-  "icon": "command-icon.png",
+  "icon": "extension-icon.png",
   "author": "michaelschultz",
   "license": "MIT",
   "access": "public",
