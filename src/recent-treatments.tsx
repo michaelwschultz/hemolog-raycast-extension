@@ -15,8 +15,9 @@ export default function recentTreatments() {
   const { API_KEY } = preferences;
 
   const { isLoading, data, error } = useFetch<Treatment[]>(
-    `https://hemolog.com/api/recent-treatments?apikey=${API_KEY}`,
+    "https://hemolog.com/api/recent-treatments",
     {
+      headers: { Authorization: `Bearer ${API_KEY}` },
       keepPreviousData: true,
     },
   );

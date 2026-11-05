@@ -45,13 +45,20 @@ async function logTreatment(values: Form.Values, setIsLoading: (isLoading: boole
       ...values,
       date: format(adjustDateForTimezone(values.date), "yyyy-MM-dd"),
     };
-    await fetch(`https://hemolog.com/api/log-treatment?apikey=${API_KEY}`, {
+    const response = await fetch("https://hemolog.com/api/log-treatment", {
       method: "POST",
       body: JSON.stringify(body),
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${API_KEY}`,
       },
     });
+    if (!response.ok) {
+      const { error } = (await response.json()) as { error?: string };
+      showToast(Toast.Style.Failure, "Could not submit Treatment", error ?? `HTTP ${response.status}`);
+      setIsLoading(false);
+      return;
+    }
     showToast(Toast.Style.Success, "Treatment logged!");
     setIsLoading(false);
     popToRoot();
